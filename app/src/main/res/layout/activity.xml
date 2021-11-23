@@ -64,6 +64,7 @@
                 android:layout_weight="1">
 
                 <include layout="@layout/directory_layout" />
+
             </FrameLayout>
 
             <include layout="@layout/ads_layout" />

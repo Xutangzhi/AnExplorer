@@ -35,10 +35,10 @@
         android:visible="false"/>
     //addnew
     <item
-        android:id="@+id/fab_take_picture"
+        android:id="@+id/fab_create_both"
         android:icon="@drawable/ic_doc_contact"
         android:orderInCategory="100"
-        android:title="@string/menu_take_picture"
+        android:title="@string/menu_create_both"
         android:visible="false"/>
     <item
         android:id="@+id/menu_search"

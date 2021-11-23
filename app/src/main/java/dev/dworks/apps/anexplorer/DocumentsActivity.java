@@ -2025,7 +2025,13 @@ public class DocumentsActivity extends BaseActivity implements MenuItem.OnMenuIt
                     createFolder();
                     mActionMenu.closeMenu();
                     break;
-
+//                    addnew
+                case R.id.fab_create_both:
+                    createFile();
+                    onStateChanged();
+                    createFolder();
+                    mActionMenu.closeMenu();
+                    break;
             }
             return false;
         }

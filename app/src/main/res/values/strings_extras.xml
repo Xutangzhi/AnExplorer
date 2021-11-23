@@ -26,7 +26,8 @@
     //changenew
     <string name="menu_create_file">Create new file</string>
     //addnew
-    <string name="menu_take_picture">Take a picture</string>
+    <string name="menu_create_both">Create new file in new folder</string>
+
     <string name="menu_uninstall">Uninstall</string>
     <string name="menu_stop">Stop</string>
     <string name="menu_properties">Properties</string>

@@ -12,4 +12,5 @@
     app:fabMenu="@menu/menu_fab"
     app:touchGuardDrawable="@drawable/fab_background"
     android:contentDescription="@string/add">
+
 </dev.dworks.apps.anexplorer.ui.FloatingActionsMenu>
