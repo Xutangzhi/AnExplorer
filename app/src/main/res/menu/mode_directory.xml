@@ -85,5 +85,6 @@
         android:icon="@drawable/ic_menu_select_all"
         support:showAsAction="always"
         android:title="Select All"/>
+    <group />
 
 </menu>

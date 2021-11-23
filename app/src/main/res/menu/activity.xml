@@ -33,6 +33,13 @@
         support:showAsAction="always"
         android:title="@string/menu_create_dir"
         android:visible="false"/>
+    //addnew
+    <item
+        android:id="@+id/fab_take_picture"
+        android:icon="@drawable/ic_doc_contact"
+        android:orderInCategory="100"
+        android:title="@string/menu_take_picture"
+        android:visible="false"/>
     <item
         android:id="@+id/menu_search"
         support:actionViewClass="androidx.appcompat.widget.SearchView"
