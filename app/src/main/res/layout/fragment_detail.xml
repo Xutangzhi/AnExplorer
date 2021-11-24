@@ -197,6 +197,13 @@
                     android:textAlignment="viewStart"
                     android:textSize="18sp" />
             </LinearLayout>
+            //addnew
+
+            <Button
+                android:id="@+id/clickbutton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Button" />
         </LinearLayout>
     </LinearLayout>
 

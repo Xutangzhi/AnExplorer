@@ -20,6 +20,7 @@ package dev.dworks.apps.anexplorer.fragment;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
@@ -32,6 +33,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -42,6 +44,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import dev.dworks.apps.anexplorer.DocumentsActivity;
 import dev.dworks.apps.anexplorer.DocumentsApplication;
+import dev.dworks.apps.anexplorer.NewActivity;
 import dev.dworks.apps.anexplorer.R;
 import dev.dworks.apps.anexplorer.common.DialogFragment;
 import dev.dworks.apps.anexplorer.misc.AsyncTask;
@@ -80,6 +83,8 @@ public class DetailFragment extends DialogFragment {
 	private View contents_layout;
     private CircleImage iconMimeBackground;
     private View path_layout;
+	//addnew
+    private Button btn;
 
     public static void show(FragmentManager fm, DocumentInfo doc) {
 		final Bundle args = new Bundle();
@@ -121,8 +126,9 @@ public class DetailFragment extends DialogFragment {
 			doc = args.getParcelable(EXTRA_DOC);
 			isDialog = args.getBoolean(EXTRA_IS_DIALOG);
 		}
+
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View view = inflater.inflate(R.layout.fragment_detail, container, false);
@@ -142,7 +148,17 @@ public class DetailFragment extends DialogFragment {
         iconMimeBackground = (CircleImage)view.findViewById(R.id.icon_mime_background);
 
 		icon = (FrameLayout)view.findViewById(android.R.id.icon);
-		
+		//addnew
+		btn= (Button) view.findViewById(R.id.clickbutton);
+		btn.setOnClickListener(new View.OnClickListener(){
+			//为找到的button设置监听
+			@Override
+			//重写onClick函数
+			public void onClick(View view){
+				Intent intent = new Intent(DetailFragment.this.getActivity(), NewActivity.class);
+				startActivity(intent);
+			}
+		});
 		return view;
 	}
 

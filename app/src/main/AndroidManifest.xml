@@ -33,9 +33,9 @@
         android:required="false" />
     <uses-feature
         android:name="android.hardware.type.pc"
-        android:required="false" />
-<!--    addnew-->
-    <uses-feature android:name="android.hardware.camera"
+        android:required="false" /> <!-- addnew -->
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="false" />
 
     <application
@@ -59,6 +59,11 @@
         <meta-data
             android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
             android:value="dev.dworks.apps.anexplorer.cast.CastOptionsProvider" /> <!-- TODO: allow rotation when state saving is in better shape -->
+        <activity
+            android:name=".NewActivity"
+            android:parentActivityName=".DocumentsActivity">
+
+        </activity>
         <activity
             android:name=".DocumentsActivity"
             android:launchMode="singleTask"
