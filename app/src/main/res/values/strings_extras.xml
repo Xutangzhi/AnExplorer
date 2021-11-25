@@ -27,6 +27,8 @@
     <string name="menu_create_file">Create new file</string>
     //addnew
     <string name="menu_create_both">Create new file in new folder</string>
+    <string name="take_photo">拍照</string>
+    <string name="choose_from_album">从相册选择</string>
 
     <string name="menu_uninstall">Uninstall</string>
     <string name="menu_stop">Stop</string>
