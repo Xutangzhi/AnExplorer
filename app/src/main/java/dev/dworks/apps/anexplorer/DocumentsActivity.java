@@ -2044,4 +2044,9 @@ public class DocumentsActivity extends BaseActivity implements MenuItem.OnMenuIt
     public boolean getSAFPermissionRequested() {
         return SAFPermissionRequested;
     }
+    //addnew
+    public void click(View view){
+        Intent intent = new Intent(this,NewActivity.class);
+        startActivity(intent);
+    }
 }

@@ -203,7 +203,7 @@
                 android:id="@+id/clickbutton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:text="Takepic" />
         </LinearLayout>
     </LinearLayout>
 
