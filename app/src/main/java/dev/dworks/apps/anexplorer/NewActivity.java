@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
+import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -33,14 +34,11 @@ public class NewActivity extends Activity {
 
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    private Button mTakePhoto, mChooseFromAlbum;
     private ImageView mPicture;
     private static final int CHOOSE_PHOTO = 2;
     String currentPhotoPath;
-    private File photoFile;
     private Uri photoURI;
-    private File storageDir;
-    private  File image;
+    private Uri mImageUriFromFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +46,8 @@ public class NewActivity extends Activity {
         setContentView(R.layout.activity_new);
         //绑定控件
         mPicture = (ImageView) findViewById(R.id.iv_picture);
-        mTakePhoto = (Button) findViewById(R.id.bt_take_photo);
-        mChooseFromAlbum = (Button) findViewById(R.id.bt_choose_from_album);
+        Button mTakePhoto = (Button) findViewById(R.id.bt_take_photo);
+        Button mChooseFromAlbum = (Button) findViewById(R.id.bt_choose_from_album);
         //监听控件takephoto
         mTakePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,9 +75,10 @@ public class NewActivity extends Activity {
         //如果没有相机则该应用不会闪退
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
-            photoFile = null;
+            File photoFile = null;
             try {
                 photoFile = createImageFile();
+                mImageUriFromFile = Uri.fromFile(photoFile);
             } catch (IOException ex) {
                 // Error occurred while creating the File
                 ex.printStackTrace();
@@ -97,10 +96,10 @@ public class NewActivity extends Activity {
     //生成照片文件
     private File createImageFile()throws IOException{
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        image = File.createTempFile(
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
@@ -113,31 +112,55 @@ public class NewActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //如果是拍照
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            //if(data==null) return;
-            //Bundle extras = data.getExtras();
-           // Bitmap imageBitmap = (Bitmap) extras.get("data");
-            //mPicture.setImageBitmap(imageBitmap);
-            Bitmap imageBitmap = null;
-            try {
-                imageBitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(photoURI));
-                galleryAddPic();
-                mPicture.setImageBitmap(imageBitmap);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+        switch(requestCode){
+            case REQUEST_IMAGE_CAPTURE:
+                if(resultCode == RESULT_OK){
+                    try{
+                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(photoURI));
+                        galleryAddPic(mImageUriFromFile);
+                        mPicture.setImageBitmap(bitmap);
+                    }catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            case CHOOSE_PHOTO:
+                if (data == null) {//如果没有选取照片，则直接返回
+                    return;
+                }
+                if (resultCode == RESULT_OK) {
+                        handleImageOnKitKat(data);
+                }
+                break;
+            default:
+                break;
         }
-        //如果是查看相册
-        if(requestCode == CHOOSE_PHOTO){
-            if(data== null){
-                return;
-            }
-            if(resultCode == RESULT_OK){
-                handleImageOnKitKat(data);
-            }
-        }
+//        //如果是拍照
+//        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+//            //if(data==null) return;
+//            //Bundle extras = data.getExtras();
+//           // Bitmap imageBitmap = (Bitmap) extras.get("data");
+//            //mPicture.setImageBitmap(imageBitmap);
+//            Bitmap imageBitmap = null;
+//            try {
+//                imageBitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(photoURI));
+//                galleryAddPic();
+//                mPicture.setImageBitmap(imageBitmap);
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        //如果是查看相册
+//        if(requestCode == CHOOSE_PHOTO){
+//            if(data== null){
+//                return;
+//            }
+//            if(resultCode == RESULT_OK){
+//                handleImageOnKitKat(data);
+//            }
+//        }
     }
+    //图片解析
     private void handleImageOnKitKat(Intent data) {
         String imagePath = null;
         Uri uri = data.getData();
@@ -180,11 +203,9 @@ public class NewActivity extends Activity {
         }
         return path;
     }
-    private void galleryAddPic() {
+    private void galleryAddPic(Uri uri) {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File f = new File(currentPhotoPath);
-        Uri contentUri = Uri.fromFile(f);
-        mediaScanIntent.setData(contentUri);
-        this.sendBroadcast(mediaScanIntent);
+        mediaScanIntent.setData(uri);
+        sendBroadcast(mediaScanIntent);
     }
 }
