@@ -36,7 +36,6 @@ public class NewActivity extends Activity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private ImageView mPicture;
     private static final int CHOOSE_PHOTO = 2;
-    String currentPhotoPath;
     private Uri photoURI;
     private Uri mImageUriFromFile;
 
@@ -47,7 +46,6 @@ public class NewActivity extends Activity {
         //绑定控件
         mPicture = (ImageView) findViewById(R.id.iv_picture);
         Button mTakePhoto = (Button) findViewById(R.id.bt_take_photo);
-        Button mChooseFromAlbum = (Button) findViewById(R.id.bt_choose_from_album);
         //监听控件takephoto
         mTakePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +53,7 @@ public class NewActivity extends Activity {
                 takePhoto();
             }
         });
+        Button mChooseFromAlbum = (Button) findViewById(R.id.bt_choose_from_album);
         //监听控件choosefromalbum
         mChooseFromAlbum.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +71,6 @@ public class NewActivity extends Activity {
     //调用intent拍摄照片
     private void takePhoto() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        //如果没有相机则该应用不会闪退
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
             File photoFile = null;
@@ -105,8 +103,6 @@ public class NewActivity extends Activity {
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
-        // Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = image.getAbsolutePath();
         return image;
     }
     //处理返回的图片数据
@@ -183,14 +179,9 @@ public class NewActivity extends Activity {
             //如果是file类型的uri，则直接获取路径
             imagePath = uri.getPath();
         }
-        displayImage(imagePath);
-    }
-    private void displayImage(String imagePath) {
         if (imagePath != null) {
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
             mPicture.setImageBitmap(bitmap);
-        } else {
-            Toast.makeText(this, "failed to get image", Toast.LENGTH_SHORT).show();
         }
     }
     private String getImagePath(Uri uri, String selection) {

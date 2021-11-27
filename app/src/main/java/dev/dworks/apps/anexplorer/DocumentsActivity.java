@@ -2004,7 +2004,6 @@ public class DocumentsActivity extends BaseActivity implements MenuItem.OnMenuIt
     }
 
     private SimpleMenuListenerAdapter mMenuListener = new SimpleMenuListenerAdapter() {
-
         @Override
         public boolean onMenuItemSelected(MenuItem menuItem) {
             Bundle params = new Bundle();

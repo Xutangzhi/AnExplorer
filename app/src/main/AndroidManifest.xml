@@ -73,7 +73,6 @@
         <activity
             android:name=".NewActivity"
             android:parentActivityName=".DocumentsActivity">
-
         </activity>
 
         <activity
